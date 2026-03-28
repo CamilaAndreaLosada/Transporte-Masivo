@@ -1,0 +1,15 @@
+=== SISTEMA DE RUTAS TRANSMILENIO ===
+
+Estaciones disponibles:
+- Portal Suba
+- Portal 80
+- Calle 26
+- Av Caracas
+- Restrepo
+- Portal Usme
+
+Ingrese origen:
+Ingrese destino:
+
+Ruta encontrada: ['Portal Suba', 'Portal 80', 'Calle 26', 'Av Caracas', 'Restrepo', 'Portal Usme']
+Costo total: 29

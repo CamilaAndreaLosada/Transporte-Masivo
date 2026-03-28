@@ -1,44 +1,44 @@
-import heapq
-from heuristica import heuristica
+# algoritmo.py
+# Implementación del algoritmo A* para encontrar la mejor ruta
 
-def aplicar_reglas(nodo, vecino, costo):
+import heapq  # Para manejar la cola de prioridad
 
-    # Simular tráfico
-    if nodo == "Héroes":
-        costo += 2
+def a_estrella(grafo, heuristica, inicio, destino):
+    """
+    grafo: diccionario con conexiones entre estaciones
+    heuristica: función que estima distancia al destino
+    inicio: estación inicial
+    destino: estación final
+    """
 
-    # Penalización por transbordo
-    if nodo == "Héroes" and vecino == "Carrera 30":
-        costo += 1
+    cola = []  # Cola de prioridad
+    heapq.heappush(cola, (0, inicio))
 
-    return costo
-
-
-def astar(grafo, inicio, destino):
-    cola = []
-    heapq.heappush(cola, (0, inicio, []))
-
-    visitados = set()
+    costos = {inicio: 0}  # Costo acumulado
+    padres = {inicio: None}  # Para reconstruir la ruta
 
     while cola:
-        costo, nodo, camino = heapq.heappop(cola)
+        _, actual = heapq.heappop(cola)
 
-        if nodo in visitados:
-            continue
+        # Si llegamos al destino
+        if actual == destino:
+            ruta = []
+            while actual:
+                ruta.append(actual)
+                actual = padres[actual]
+            return ruta[::-1]
 
-        camino = camino + [nodo]
+        # Explorar vecinos
+        for vecino, costo in grafo[actual]:
+            nuevo_costo = costos[actual] + costo
 
-        if nodo == destino:
-            return camino, costo
+            if vecino not in costos or nuevo_costo < costos[vecino]:
+                costos[vecino] = nuevo_costo
 
-        visitados.add(nodo)
+                # A* = costo real + heurística
+                prioridad = nuevo_costo + heuristica(vecino, destino)
 
-        for vecino, peso in grafo[nodo].items():
-            costo_real = aplicar_reglas(nodo, vecino, peso)
-            nuevo_costo = costo + costo_real
-            prioridad = nuevo_costo + heuristica(vecino, destino)
+                heapq.heappush(cola, (prioridad, vecino))
+                padres[vecino] = actual
 
-            heapq.heappush(cola, (prioridad, vecino, camino))
-
-    return None, float("inf")
-# Aqui se 
+    return None

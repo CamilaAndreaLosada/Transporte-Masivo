@@ -1,18 +1,20 @@
-grafo = {
-    # estaciones principal que se mantiene en linea
-    "Portal Usme": {"Flores": 2},
-    "Flores": {"Portal Usme": 2, "Kennedy": 2},
-    "Kennedy": {"Flores": 2, "Calle 100": 1},
-    "Calle 100": {"Kennedy": 1, "Héroes": 1},
-    "Héroes": {"Calle 100": 1, "Nariño": 1, "Carrera 30": 2},
-    "Nariño": {"Héroes": 1, "Las aguas": 1},
-    "Las aguas": {"Nariño": 1, "Sevillana": 1},
-    "Sevillana": {"Las aguas": 1},
+# grafo.py
+# Representación del sistema de transporte como grafo
 
-    # estaciones secundarias que se mantiene el linea, pero se encuentra en la linea de la estaciones de linea principal
-    "Portal 80": {"Boyacá": 2},
-    "Boyacá": {"Portal 80": 2, "Av 68": 1},
-    "Av 68": {"Boyacá": 1, "Carrera 30": 1},
-    "Carrera 30": {"Av 68": 1, "Héroes": 2}
+# Grafo base (una sola dirección)
+grafo_base = {
+    "Portal Suba": [("Portal 80", 5)],
+    "Portal 80": [("Calle 26", 7)],
+    "Calle 26": [("Av Caracas", 6)],
+    "Av Caracas": [("Restrepo", 5)],
+    "Restrepo": [("Portal Usme", 6)],
 }
-## rutas de transmilenio 
+
+# Convertir a bidireccional automáticamente
+grafo = {}
+
+for origen in grafo_base:
+    for destino, costo in grafo_base[origen]:
+
+        grafo.setdefault(origen, []).append((destino, costo))
+        grafo.setdefault(destino, []).append((origen, costo))

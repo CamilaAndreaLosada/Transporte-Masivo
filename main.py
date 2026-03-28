@@ -1,13 +1,9 @@
+# main.py
+# Prueba directa del algoritmo A* sin interacción
+
+from algoritmo import a_estrella
 from grafo import grafo
-from algoritmo import astar
+from heuristica import heuristica
 
-inicio = "Portal Usme"
-destino = "Portal 80"
-
-ruta, costo = astar(grafo, inicio, destino)
-
-print("Ruta óptima:")
-print(" -> ".join(ruta))
-print("Costo total:", costo)
-
-# ejecución del programa de transporte masivo
+ruta = a_estrella(grafo, heuristica, "Portal Suba", "Portal Usme")
+print("Ruta encontrada:", ruta)
