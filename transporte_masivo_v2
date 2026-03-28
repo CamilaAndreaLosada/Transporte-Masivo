@@ -1,8 +1,11 @@
+# mejoras_fredy.py
+# Módulo de interacción con el usuario
+
 from algoritmo import a_estrella
 from grafo import grafo
 from heuristica import heuristica
 
-# Función para calcular el costo total de la ruta
+# Calcular costo total de la ruta
 def calcular_costo(ruta):
     costo = 0
     for i in range(len(ruta) - 1):
@@ -22,13 +25,21 @@ def ejecutar():
     for estacion in grafo.keys():
         print("-", estacion)
 
-    # Entrada
-    inicio = normalizar(input("\nIngrese origen: "))
-    destino = normalizar(input("Ingrese destino: "))
+    print("\nIngrese origen:")
+    inicio = normalizar(input())
 
-    # Mapeo correcto
-    mapa = {k.lower(): k for k in grafo.keys()}
+    print("Ingrese destino:")
+    destino = normalizar(input())
 
+    # Crear mapa de estaciones (con alias)
+    mapa = {}
+    for estacion in grafo.keys():
+        mapa[estacion.lower()] = estacion
+
+        if "restrepo" in estacion.lower():
+            mapa["av restrepo"] = estacion
+
+    # Validación
     if inicio not in mapa or destino not in mapa:
         print("\nError: estación no válida")
         return
@@ -36,7 +47,6 @@ def ejecutar():
     inicio_real = mapa[inicio]
     destino_real = mapa[destino]
 
-    # Ejecutar A*
     ruta = a_estrella(grafo, heuristica, inicio_real, destino_real)
 
     if ruta:
